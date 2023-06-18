@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/signup.css">
+</head>
+<body>
+
+    <form class="modal-content">
+        <div class="container">
+            <h1>Sign Up for Business Account</h1>
+            <p>Please fill in this form to create an account.</p>
+            <hr>
+            <label for='username'>Username</label>
+            <input type='text'  name='username' />
+            <div class='username-error'></div><br>
+    
+            <label for="email"><b>Email</b></label>
+            <input type="text"  name="email" required>
+            <div class='email-error'></div><br>
+    
+            <label for="password"><b>Password</b></label>
+            <input type="password"  name="password" required>
+            <div class='password-error'></div><br>
+    
+            <label for="confirm_password"><b>Confirm Password</b></label>
+            <input type="password"  name="confirm_password" required>
+            <div class='confirm_password-error'></div><br>
+        
+            <div class="clearfix">
+                <button type="submit" class="signupbtn">Sign Up</button>
+            </div>
+    </form>
+
+
+    <script>
+
+        const form = document.querySelector('form');
+        const usernameError = document.querySelector('.username-error')
+        const emailError = document.querySelector('.email-error')
+        const passwordError = document.querySelector('.password-error')
+        const confirmpasswordError = document.querySelector('.confirm_password-error')
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // reset errors
+            usernameError.textContent = '';
+            emailError.textContent = '';
+            passwordError.textContent = '';
+            confirmpasswordError.textContent = '';
+
+            // get the values
+            const username = form.username.value;
+            const email = form.email.value;
+            const password = form.password.value;
+            const confirmPassword = form.confirm_password.value;
+
+            try{
+                const res = await fetch('/business/signup', {
+                        method: 'POST',
+                        body: JSON.stringify({ username, email, password, confirmPassword }),
+                        headers: { 'Content-Type': 'application/json' }
+                })
+
+                const data2 = await res.json();
+                console.log("Data: " + data2);
+                console.log(data2.user);
+
+                if(data2.errors) {
+                    usernameError.textContent = data2.errors.username;
+                    emailError.textContent = data2.errors.email;
+                    passwordError.textContent = data2.errors.password;
+                    confirmpasswordError.textContent = data2.errors.confirmPassword;
+                }
+                else {
+                    location.assign('/business/login');
+                }
+
+                form.username.value = username;
+                form.email.value = email;
+                form.password.value = "";
+                form.confirm_password.value = "";
+
+            } catch(err){
+                console.log(err)
+            }
+
+            console.log(username, email, password, confirmPassword);
+        })
+
+    </script>
+</body>
+</html>

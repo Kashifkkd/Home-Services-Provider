@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src='/javascript/shoplist.js' defer> </script>
+
+    <style>
+        /* body{
+            margin: 10px 170px;
+        }
+        h2{
+            margin: 20px 12px;
+        }
+        .shops{
+            padding: 20px 10px ;
+            background-color: rgb(238, 236, 236);
+            margin: 10px 30px 16px;
+            border-bottom: 2px solid red ;
+            border-radius: 8px;
+            width: 95%; */
+            /* display: inline; */
+        /* }
+        .shops:hover{
+            box-shadow: 1px 5px 8px rgba(0,0,0,0.2);
+            scale: (1,1);
+        }
+        a{
+            margin: 16px 10px;
+            padding: 0px 0px 10px;
+        }
+        p{
+            margin: 16px 10px;
+            padding: 0px 0px 10px;
+        } */
+
+        body{
+            margin: 10px 100px;
+            background-color: #cccccc;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        h2{
+            margin: 20px 12px;
+            font-size: 2.3rem;
+            color: white;
+        }
+        .shoplist{
+            /* width: 100px; */
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .shops{
+            width: 900px;
+            padding: 20px 40px ;
+            background-color: rgb(238, 236, 236);
+            margin: 10px 16px 30px;
+            border-bottom: 2px solid red ;
+            border-radius: 8px;
+            display: block;
+        }
+        .shops:hover{
+            box-shadow: 1px 5px 8px rgba(0,0,0,0.2);
+            scale: (2,2);
+        }
+        a{
+            margin: 16px 10px;
+            padding: 0px 0px 10px;
+            position: absolute;
+            display: block;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        p{
+            margin: 50px 10px;
+            padding: 0px 0px 10px;
+        }
+        #a1{
+            width: 325px;
+            float: right;
+            
+        }
+        @media (max-width: 800px) {
+            .shoplist {
+                flex-direction: column;
+            }
+            h2{
+                font-size: 2rem;
+            }
+}
+    </style>
+
+</head>
+
+<body>
+
+    <h2>Shops that provide <i>services</i> :-</h2>
+    <div class="shoplist">
+        <!-- <div class="shops">
+            <a href="#">Shop no. 01</a>
+            <p>Some info about the shop</p>
+        </div>
+        <div class="shops">
+            <a href="#">Shop no. 02</a>
+            <p>Some info about the shop</p>
+        </div>
+        
+        <div class="shops">
+            <a href="#">Shop no. 03</a>
+            <p>Some info about the shop</p>
+        </div>
+        <div class="shops">
+            <a href="#">Shop no. 04</a>
+            <p>Some info about the shop</p>
+        </div> -->
+    </div>
+
+    <script>
+
+        const city = '<%= city %>';
+        const area = '<%= area %>';
+        const service = '<%= service %>';
+        const username = '<%= username %>';
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src='/javascript/home.js' defer> </script>
+    <link rel="stylesheet" href="/css/home.css>">
+</head>
+
+<style>
+    #detect-location{
+        color: rgb(76, 76, 243);
+        cursor: pointer;
+    }
+
+    #location-loading {
+        width: 40px;
+        height: auto;
+        display: none;
+    }
+
+    #location-error {
+        display: none;
+    }
+
+    :root {
+        --primary: #f32525;
+        --light: #eeeeee;
+        --dark: #212121;
+        --link: #037fc2;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body{
+        background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),url('joatbg.jpg') ;
+        background-repeat: no-repeat;
+        background-attachment: fixed;  
+        background-size: cover;
+    }
+
+    li, a, button{
+        font-weight: 500;
+        font-size: 16px;
+        color: var(--link);
+        text-decoration: none;
+    }
+
+    header{
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        padding: 12px 30px;
+        background-color: #eeeeee;
+    }
+
+    label{
+        margin-left: 40px;
+        margin-right: auto;
+    }
+
+    nav{
+        margin-right: 200px;
+    }
+
+    .links{
+        list-style: none;
+    }
+
+    .links li{
+        display: inline-block;
+        padding: 0px 20px;
+    }
+
+    .links li a.active{
+        color: var(--primary);
+        
+    }
+
+    .links li a:hover{
+        
+        border-bottom: 2px solid var(--primary);
+    }
+
+    button{
+        padding: 7px 12px;
+    }
+
+    .selection{
+        border: 1px solid black;
+        background-color: #ced5d7;
+        display: inline-block;
+        padding: 0px 38px 32px 0px;
+        margin: 192px 28px 122px 28px;
+        border-radius: 14px;
+    }
+
+    .selection h2{
+        padding: 15px;
+        font-size: 28px;
+        display: inline;
+    }
+
+    .selection select{
+        margin: 20px;
+        padding: 3px 70px;
+        font-size: 18px;
+    }
+
+    #select-address{
+        display: block;
+    }
+
+    .area-name-autofill{
+        margin-left: 20px;
+        padding: 3px 40px;
+        font-size: 18px;
+    }
+
+    .categories{
+        padding: 0px 30px 28px 30px;
+        margin: 0px 230px;
+        background-color: #ced5d7;
+        border-radius: 14px;
+        border: 1px solid black;
+    }
+
+    #cats{
+        padding: 0px 41.6%;
+        font-size: 26px;
+        color: white;
+    }
+
+    .categories a{
+        padding: 24px 88px;
+        display: inline-block;
+    }
+
+    #scroll{
+        position: absolute;
+        margin: -1.6% 47%;
+        width: 100px;
+        height: 70px;
+        animation: hovering;
+        animation-duration: 3s;
+        animation-iteration-count: infinite;
+        animation-fill-mode:forwards;
+        z-index: 1;
+    }
+
+    /* #loading-img {
+
+    } */
+
+    @keyframes hovering{
+        0%{transform: translate(0,0);}
+        50%{transform: translate(-5px,10px);width: 110px;}
+        100%{transform: translate(0,0);}
+    }
+</style>
+
+<body>
+
+    <header>
+        <label class="logo"><a href='/'>JOAT</a></label>
+        <nav>
+            <ul class="links">
+                <li>Welcome, <%= user.username %></li>
+                <li><a href="<%= user.username %>/profile">Profile</a></li>
+                <li><a href="/help">Help</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>    
+        </nav>
+    </header>
+
+    <div class='selection' id='location-detail'>
+
+        <div  id='select-city'>
+            <h2>Select your City: </h1>
+            <select id="cityname">
+                <option value="Select City">Select City</option>
+                <option value="Mumbai">Mumbai</option>
+                <option value="Pune">Khed</option>
+                <option value="Dapoli">Dapoli</option>
+                <option value="Chiplun">Chiplun</option>
+            </select>
+            <span id='select-city-error'></span>
+        </div>
+
+        <div id='select-address'>
+            <h2>Add address: </h1>
+            <i id='detect-location'>Detect using GPS</i>
+            <br><br>
+
+            <span style='padding: 15px;'>Choose Area : </span>
+            <input name="area-name" class='area-name-autofill' list="area-name" >
+            <datalist id="area-name" >
+            </datalist>
+
+            <span id='loading-img'><img id='location-loading' src='/location-loading.gif'></span>
+
+        </div>
+
+    </div>
+
+        <p id="cats">scroll for categories</p>
+        <img src="chevron-down.png" id="scroll">
+        <div class="categories">
+            
+            <a id='electrician' onClick='reply_click(this.id)'>Electrician</a>
+            <a id='plumber' onClick='reply_click(this.id)'>Plumber</a>
+            <a id='ac-technician' onClick='reply_click(this.id)'>AC Technician</a>
+            <a id='electronics' onClick='reply_click(this.id)'>Electronics</a>
+            <a id='house-shifting' onClick='reply_click(this.id)'>House Shifting</a>
+            <a id='home-decor' onClick='reply_click(this.id)'>Home Decor</a>
+            <a id='interior-painting' onClick='reply_click(this.id)'>Interior Painting</a>
+            <a id='tv-pc-repair' onClick='reply_click(this.id)'>TV/PC repair</a>
+            <a id='home-salon' onClick='reply_click(this.id)'>Home Salon</a>
+
+        </div>
+
+    <script>
+        
+        const user = '<%= user.username %>'
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    *,
+    *:after,
+    *:before {
+    box-sizing: border-box;
+    }
+    body{
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 10px;
+    }
+    .proceed-box{
+        width: 700px;
+        height: 400px;
+        box-shadow: 2px 7px 10px rgba(0,0,0,0.4);
+        display: block;
+        margin-left: 25%;
+        padding: 25px;
+        align-items: center;
+    }
+    h1,h2{
+        margin-top: 30px;
+        text-align: center;
+    }
+    p{
+        margin: 20px 0;
+    }
+
+    .dropdown-wrapper {
+        position: relative;
+        width: 240px;
+        margin: 10px 200px;
+        padding: 12px 15px;
+        background: #fff;
+        border-radius: 5px;
+        box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+        outline: none;
+        transition: all 0.3s ease-out;
+        
+    }
+
+    .dropdown-wrapper:after {
+        content: "";
+        width: 0;
+        height: 0;
+        position: absolute;
+        top: 50%;
+        right: 15px;
+        margin-top: -3px;
+        border-width: 6px 6px 0 6px;
+        border-style: solid;
+        border-color: #f05b55 transparent;
+    }
+
+    .dropdown-wrapper.is-active {
+        border-radius: 5px 5px 0 0;
+        background: #f05b55;
+        box-shadow: none;
+        border-bottom: none;
+        color: white;
+    }
+
+    .dropdown-wrapper.is-active:after {
+        border-color: #ffffff transparent;
+        transform: rotate(180deg);
+    }
+
+    .dropdown-wrapper.is-active .dropdown-list {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+        max-height: 400px;
+    }
+
+    .dropdown-list {
+        /* Size & position */
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        /* Styles */
+        background: #fff;
+        border-radius: 0 0 5px 5px;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        border-top: none;
+        border-bottom: none;
+        list-style: none;
+        transition: all 0.3s ease-out;
+        /* Hiding */
+        max-height: 0;
+        overflow: hidden;
+    }
+
+    .dropdown-list li {
+        padding: 0 10px;
+    }
+
+    .dropdown-list li:hover a {
+        color: #f05b55;
+    }
+
+    .dropdown-list li:last-of-type a {
+        border: none;
+    }
+
+    .dropdown-list a {
+        display: block;
+        text-decoration: none;
+        color: #333;
+        padding: 10px 0;
+        transition: all 0.3s ease-out;
+        border-bottom: 1px solid #e6e8ea;
+    }
+
+    #place-order {
+        /* display: none; */
+        display: block;
+        background-color: rgb(178, 176, 176);
+        color: #000000;
+        padding: 14px;
+        margin-top: 40px;
+        margin-left: 272px;
+        font-size: large;
+    }
+
+</style>
+<body>
+    <h1>Proceed Page</h1>
+    <div class="proceed-box">
+        <h2>Choose Address for service -</h2>
+        <div id="dropdown-wrapper" class="dropdown-wrapper" tabindex="1">
+            <span>Choose your User</span>
+        
+            <ul class="dropdown-list">
+                <li><a href="#"><%= address1 %></a></li>
+                <li><a href="#"><%= address2 %></a></li>
+            </ul>
+        </div>
+
+        <div>
+            <h2>Price - ₹ <%=price %></h2>
+        </div>
+
+        <button id='place-order'>Place order</button>    
+    </div>
+</body>
+
+<script>
+
+    const dd = document.querySelector('#dropdown-wrapper');
+    const links = document.querySelectorAll('.dropdown-list a');
+    const span = document.querySelector('span');
+    const placeOrderButton = document.getElementById('place-order');
+
+    const sn = '<%=shopname %>';
+    const pc = '<%=price %>';
+    const sr = '<%=service %>';
+    const username = '<%=username %>';
+    const id = '<%=id %>';
+
+
+    dd.addEventListener('click', function() {
+        this.classList.toggle('is-active');
+        placeOrderButton.style.display = 'block';
+    });
+
+    links.forEach((element) => {
+        element.addEventListener('click', function(evt) {
+            span.innerHTML = evt.currentTarget.textContent;
+        })
+    })
+
+    placeOrderButton.addEventListener('click', async () => {
+        var txt;
+        if (confirm("Confirm Order !")) {
+
+            const res = await fetch('/username/shopname/service/id/price/proceed-page', {
+                method: 'POST',
+                body: JSON.stringify({ sn,pc,sr,username,id }),
+                headers: { 'Content-Type' : 'application/json' },
+            })
+
+            // const data = await res.json();
+            // console.log(data);
+
+            window.location = '/services';
+        } else {
+            console.log("You pressed Cancel!");
+        }
+    }) 
+
+</script>
+</html>

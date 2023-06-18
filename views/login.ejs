@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/login.css">
+</head>
+<body>
+
+    <form class='modal-content'>
+        <div class="container">
+            <h2>Login</h2>
+
+            <div class='invalid-credentials'></div>
+            <br>       
+    
+            <label for='email'>Email</label>
+            <input type='text' name='email' />
+            <div></div>
+    
+            <label for='password'>Password</label>
+            <input type='password' name='password' />
+            <div></div>
+    
+            <button>Login</button>
+
+        </div>
+
+        <div class="container">
+            <a href='/signup'>Signup</a>
+            <a style='float: right;' href='/forgot-password'>Forgot Password</a>
+
+        </div>
+    
+    </form>
+
+    <script>
+
+        const form = document.querySelector('form');
+
+        invalidCredentials = document.querySelector('.invalid-credentials');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            invalidCredentials.textContent = ''
+
+            email = form.email.value;
+            password = form.password.value;
+
+            try {
+                const res = await fetch('/login', {
+                    method: 'POST',
+                    body: JSON.stringify({ email, password }),
+                    headers: { 'Content-Type' : 'application/json' },
+                })
+
+                const data = await res.json();
+                console.log(data);
+
+                if(data.errors) {
+                    invalidCredentials.textContent = `*${data.errors.loginVerification}`;
+                }
+                if(data.user) {
+                    const loggedUser = data.user;
+                    location.assign('/services');
+                }
+
+                form.email.value = '';
+                form.password.value = '';
+
+            } catch(err){
+                console.log(err)
+            }
+
+            console.log(email, password);
+        })
+
+
+    </script>
+</body>
+</html>

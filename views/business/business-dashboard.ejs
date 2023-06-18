@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/profile.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+</head>
+
+
+<body>
+    <div class="user">
+        <h1>Business Dashboard</h1>
+    </div>
+
+    <div class="sidebar">
+        <a>Welcome <%= username %></a>
+        <a class="active" id='myProfile'>My Profile</a>
+        <a href='/business/dashboard/<%= username%>/orders' id='addressInfomation'>Orders</a>
+        <a href='/business/logout' id='addressInfomation'>Logout</a>
+    </div>
+
+    <div class="content" id="profile">
+        <form>
+            <input type='button' id='edit-button' value='Edit'>
+            <h3>Personal information</h3> <br><br>
+
+            <label for='sname'>Shop Name :</label>
+            <input type="text" id="sname" value="<%= shopName %>"> <br>
+            <div class='sname-error'></div><br><br>
+            
+            <label for='fname'>First Name :</label>
+            <input type="text" id="fname" value="<%= fName %>"> <br><br>
+            <div class='fname-error'></div><br><br>
+
+            <label for='lname'>Last Name :</label>
+            <input type="text" id="lname" value="<%= lName %>"> <br>
+            <div class='lname-error'></div><br><br>
+            
+            <label for='email'>Email Address :</label>
+            <input type="text" id="email" value="<%= email %>">
+            <div class='email-error'></div><br> <br>
+
+            <label for='mobileNo'>Mobile Number :</label>
+            <input type='tel' name='mobileNo' id='mobNumber' value='<%= mNumber %>'/>
+            <div class='mobileNo-error'></div><br><br>
+
+            <button id='submit-button'>Save</button>
+        </form>
+
+    </div>
+
+    <script>
+
+        const form = document.querySelector('form');
+        const firstNameError = document.querySelector('.fname-error');
+        const lastNameError = document.querySelector('.lname-error');
+        const shopNameError = document.querySelector('.sname-error');
+        const emailError = document.querySelector('.email-error');
+        const mobileNumberError = document.querySelector('.mobileNo-error');
+        const saveButton = document.getElementById('submit-button')
+        const editButton = document.getElementById('edit-button');
+        const sNameBox = document.getElementById('sname');
+        const fNameBox = document.getElementById('fname');
+        const lNameBox = document.getElementById('lname');
+        const emailBox = document.getElementById('email');
+        const phoneBox = document.getElementById('mobNumber');
+
+        emailBox.disabled = true;
+        emailBox.style.cursor = "not-allowed";
+
+        saveButton.style.display = 'none';
+        editButton.style.display = 'block';
+
+        sNameBox.disabled = true;
+        sNameBox.style.cursor = "not-allowed";
+
+        fNameBox.disabled = true;
+        fNameBox.style.cursor = "not-allowed";
+
+        lNameBox.disabled = true;
+        lNameBox.style.cursor = "not-allowed";
+
+        phoneBox.disabled = true;
+        phoneBox.style.cursor = "not-allowed";
+
+        editButton.addEventListener('click', async() => {
+            saveButton.style.display = 'block';
+            editButton.style.display = 'none';
+
+            sNameBox.disabled = false;
+            sNameBox.style.cursor = "auto";
+
+            fNameBox.disabled = false;
+            fNameBox.style.cursor = "auto";
+
+            lNameBox.disabled = false;
+            lNameBox.style.cursor = "auto";
+
+            phoneBox.disabled = false;
+            phoneBox.style.cursor = "auto";
+        })
+
+
+        // const firstName = document.getElementById('fname');
+        // const lastName = document.getElementById('lname');
+        // const email = document.getElementById('email');
+        // const mobileNumber = document.getElementById('mobNumber')
+
+        form.addEventListener('submit', async(e) => {
+            e.preventDefault();
+
+            console.log('clicked..')
+
+            let firstName = form.fname.value;
+            let shopName = form.sname.value;
+            let lastName = form.lname.value;
+            let email = form.email.value;
+            let mobileNumber = form.mobileNo.value;
+
+            
+            firstNameError.textContent = '';
+            lastNameError.textContent = '';
+            shopNameError.textContent = '';
+            emailError.textContent = '';
+            mobileNumberError.textContent = '';
+            
+            let sNameCheck = checkEmptyValues(lastName,shopNameError,'shop name');
+            let fNameCheck = checkEmptyValues(firstName,firstNameError,'first name');
+            let lNameCheck = checkEmptyValues(lastName,lastNameError,'last name');
+            let numberCheck = checkEmptyValues(mobileNumber,mobileNumberError,'mobile number');
+            let emailCheck = validateEmail(email);
+            if(!emailCheck){
+                emailError.textContent = 'Please enter valid email';
+            }
+            let validNumberCheck;
+            if(mobileNumber != ""){
+                validNumberCheck = phonenumber(mobileNumber);
+            }
+
+            try{
+                if(firstName && shopName && lastName && email && mobileNumber){
+                    const res = await fetch('/business/dashboard',{
+                        method: 'POST',
+                        body: JSON.stringify({ email, firstName, lastName, shopName, mobileNumber}),
+                        headers: { 'Content-Type' : 'application/json' },
+                    })
+
+                    saveButton.style.display = 'none';
+                    editButton.style.display = 'block';
+
+                    sNameBox.disabled = true;
+                    sNameBox.style.cursor = "not-allowed";
+
+                    fNameBox.disabled = true;
+                    fNameBox.style.cursor = "not-allowed";
+
+                    lNameBox.disabled = true;
+                    lNameBox.style.cursor = "not-allowed";
+
+                    phoneBox.disabled = true;
+                    phoneBox.style.cursor = "not-allowed";
+                    
+                    console.log(res);
+                }
+
+            } catch(err) {
+
+        }
+    })
+
+
+    function checkEmptyValues(value,errorName,name){
+        if(value === ''){
+            errorName.textContent = `Please enter ${name}`
+            return false;
+        } 
+        return true;
+    }
+
+    function validateEmail(email){
+        const emailRegex =  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+        if(email.match(emailRegex)){
+            return true;
+        }
+        return false;
+    }
+
+    function phonenumber(inputtxt){
+        var regx = /^[6-9]\d{9}$/ ;
+
+        if(regx.test(inputtxt)){
+            return true;
+        }
+        else{
+            mobileNumberError.textContent = 'Please enter valid phone number'
+            return false;
+        }
+    }
+
+    </script>
+
+
+</body>
+</html>

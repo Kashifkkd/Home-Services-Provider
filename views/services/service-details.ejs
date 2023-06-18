@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Shop Details</title>
+    <style>
+      /* Basic Styling */
+      html, body {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      }
+
+      .container {
+      max-width: 1000px;
+      margin: 5px auto;
+      padding: 15px;
+      display: flex;
+      }
+      /* Columns */
+      .left-column {
+      width: 65%;
+      position: relative;
+      }
+      
+      .right-column {
+      width: 35%;
+      margin-top: 60px;
+      }
+      /* Left Column */
+      .left-column img {
+        width: 80%;
+        position: absolute;
+        left: 0;
+        top: 20%;
+        opacity: 0;
+        transition: all 0.3s ease;
+      }
+      
+      .left-column img.active {
+        opacity: 1;
+      }
+      /* shop Description */
+      .shop-description {
+        border-bottom: 1px solid #E1E8EE;
+        margin-bottom: 20px;
+        margin-left: 10px;
+      }
+      .shop-description span {
+        font-size: 12px;
+        color: #358ED7;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        text-decoration: none;
+      }
+      .shop-description h1 {
+        font-weight: 300;
+        font-size: 48px;
+        color: #43484D;
+        letter-spacing: -2px;
+
+      }
+      .shop-description p {
+        font-size: 16px;
+        font-weight: 300;
+        color: #86939E;
+        line-height: 24px;
+      }
+      .shop-description h4 {
+        font-size: 16px;
+        font-weight: 300;
+        color: #43484D;
+        line-height: 24px;
+      }
+      /* shop Price */
+      .shop-price {
+        display: flex;
+        align-items: center;
+      }
+      
+      .shop-price span {
+        font-size: 26px;
+        font-weight: 300;
+        color: #43474D;
+        margin-right: 20px;
+      }
+      
+      .cart-btn {
+        display: inline-block;
+        background-color: #7DC855;
+        border-radius: 6px;
+        font-size: 16px;
+        color: #FFFFFF;
+        text-decoration: none;
+        padding: 12px 30px;
+        transition: all .5s;
+      }
+      .cart-btn:hover {
+        background-color: #64af3d;
+      }
+      .review-list{
+          margin-left:175.5px;
+          margin-bottom: 10px;
+          color: #1f3a50;
+      }
+      .review{
+          color: #40505d;
+          margin:0px 10px 5px ;
+      }
+      #id01{
+        color: #E1E8EE;
+        display: none;
+        /* margin: 90px 200px; */
+        margin-top: 90px;
+        margin-left: 17.5%;
+          margin-right: auto;
+          width: 65%;
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding: 50px 25px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 65%;
+        height: 50%; 
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(108, 106, 106); /* Fallback color */
+        background-color: rgba(3, 55, 85, 0.3); /*  w/ opacity */
+            }
+      /* Responsive */
+      @media (max-width: 940px) {
+        .container {
+          flex-direction: column;
+          margin-top: 60px;
+        }
+      
+        .left-column,
+        .right-column {
+          width: 100%;
+        }
+      
+        .left-column img {
+          width: 300px;
+          right: 0;
+          top: -65px;
+          left: initial;
+        }
+        #id01{
+          margin-left: 17.5%;
+          margin-right: auto;
+          width: 60%;
+        }
+      }
+      
+      @media (max-width: 535px) {
+        .left-column img {
+          width: 220px;
+          top: -85px;
+        }
+        .review-list{
+          margin-left: 37px;
+        }
+        
+      }
+    </style>
+</head>
+<body>
+    <main class="container">
+ 
+        <!-- Left Column / Shop Image -->
+        <div class="left-column">
+          <img data-image="red" id='il' class="active" src="http://localhost:3000/shop.jpeg" alt="active image">
+        </div>
+        <!-- Right Column -->
+        <div class="right-column">
+       
+          <!-- Shop Description -->
+          <div class="shop-description">
+            <span>Shop no. 01</span>
+            <h1>Welcome Hardware!</h1>
+            <h4>Owned by - Hemant Singh desmukh</h4>
+            <h4>Contact details: <a href="" style="color: blue;"> 9876543210</a></h4>
+            <h4>Address : karishma plaza apt, shop no-02, guhagar naka, chiplun-415605</h4>
+            <p class="about-shop">We provide all the given services effeciently and at a low cost</p>
+
+          </div>
+          <!-- Product Pricing -->
+          <div class="shop-price">
+            <span>₹ <%=price %></span>
+            <!-- <button onclick="document.getElementById('id01').style.display='block' " class="cart-btn">Proceed</button> -->
+            <button id='i1' class="cart-btn">Proceed</button>
+          </div>
+        </div>
+    
+    </main>
+    <div class="review-list">
+        <h2>Reviews :</h2>
+        <div class="review">
+            <p><b>Kabir Bhatt</b>- Very good Service !</p>
+            <p><b>Alia Kapoor</b>- Service is good but price is high !</p>
+        </div>
+    </div>
+
+    <script>
+
+      const username = '<%= username %>';
+      const id = '<%= id %>';
+      const priceButton = document.getElementById('i1');
+
+      console.log(username);
+      console.log(id);
+
+      priceButton.addEventListener('click', () => {
+        console.log('clicked')
+        window.location = `proceed-page`
+      });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>main-page</title>
+    <script src='/javascript/home.js' defer> </script>
+
+    <style>
+        :root {
+            --primary: #f32525;
+            --light: #eeeeee;
+            --dark: #212121;
+            --link: #037fc2;
+        }
+
+        #location-loading {
+            width: 40px;
+            height: auto;
+            display: none;
+        }
+
+        #select-city-error {
+            margin-left: 250px;
+            color: red;
+            display: block;
+        }
+
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body{
+            background-image:  linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.1)),url('battlecreek-coffee-roasters-NfG4rXmceFM-unsplash.jpg') ;
+            background-repeat: no-repeat;
+            background-attachment: fixed;  
+            background-size: cover;
+        }
+        li, a, button{
+            font-weight: 500;
+            font-size: 16px;
+            color: var(--link);
+            text-decoration: none;
+        }
+        header{
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 12px 30px;
+            background-color: #eeeeee;
+        }
+        label{
+            margin-left: 40px;
+            margin-right: auto;
+        }
+        nav{
+            margin-right: 200px;
+        }
+        .links{
+            list-style: none;
+        }
+        .links li{
+            display: inline-block;
+            padding: 0px 20px;
+        }
+        .links li a.active{
+            color: var(--primary);
+            
+        }
+        .links li a:hover{
+            
+            border-bottom: 2px solid var(--primary);
+        }
+        button{
+            padding: 7px 12px;
+        }
+        .selection{
+            border: 1px solid black;
+            background-color: rgb(206, 213, 215,.15);
+            backdrop-filter: blur(12px);
+            /* display: inline-block; */
+            display: flex;
+            flex-direction: row;
+            /* align-self: center; */
+            justify-content: center;
+            padding: 52px 30px;
+            margin: 0px 106px 122px;
+            border-radius: 14px;
+        }
+        .selection h2{
+            padding: 15px;
+            font-size: 28px;
+            display: inline;
+            color: black;
+        }
+        .selection select{
+            margin: 20px 20px 20px 0px;
+            padding: 7px 80px;
+            font-size: 18px;
+        
+        }
+        #add-address{
+            display: block;
+            color: white;
+
+        }
+        #detect-location{
+            color: rgb(76, 78, 228);
+            font-weight: 500;
+        }
+        .area-name-autofill{
+            margin-left: 20px;
+            padding: 3px 76px;
+            font-size: 18px;
+        }
+        .hero{
+            color: white;
+            padding: 70px;
+            font-size: 40px;
+        }
+        .categories{
+            padding: 0px 30px 28px 30px;
+            margin: 0px 230px;
+            background-color: #ced5d7;
+            border-radius: 14px;
+            border: 1px solid black;
+            display: block;
+        }
+        .categories label{
+            display: inline-block;
+            width:210px;
+        }
+        .categories img{
+            width:100px;
+            margin-top: 10px;
+            margin-left: 75px;
+        }
+        #cats{
+            padding: 0px 41.6%;
+            font-size: 26px;
+            color: white;
+        }
+        .categories a{
+            padding: 0px 88px 24px;
+            display: inline-block;
+        }
+        #scroll{
+            position: absolute;
+            margin: -1.6% 47%;
+            width: 100px;
+            height: 70px;
+            animation: hovering;
+            animation-duration: 3s;
+            animation-iteration-count: infinite;
+            animation-fill-mode:forwards;
+            z-index: 1;
+        }
+        @keyframes hovering{
+            0%{transform: translate(0,0);}
+            50%{transform: translate(-5px,10px);width: 110px;}
+            100%{transform: translate(0,0);}
+        }
+        
+    </style>
+</head>
+
+<body>
+    <header>
+        <label class="logo">JOAT</label>
+        <nav>
+            <ul class="links">
+                <li>Welcome, <%= user.username %></li>
+                <li><a href="<%= user.username %>/profile">My profile</a></li>
+                <li><a href="<%= user.username %>/service-order">Service Order</a></li>
+                <li><a href="/help">Help</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>    
+        </nav>
+        <a class="search"><button>Q</button></a>
+    </header>
+    <div class="hero">
+        <h1>Give your home a new look !</h1>
+    </div>
+    <div class="selection" id='select-address'>
+        <div  id='select-city'>
+            <h2>Select your City: </h1>
+            <select id="cityname">
+                <option value="Select City">Select City</option>
+                <option value="Mumbai">Mumbai</option>
+                <option value="Pune">Khed</option>
+                <option value="Dapoli">Dapoli</option>
+                <option value="Chiplun">Chiplun</option>
+            </select>
+            <span id='select-city-error'></span>
+        </div>
+
+
+        <div id='select-address'>
+            <h2>Add address: </h1>
+            <i id='detect-location'>Detect using GPS</i>
+            <br><br>
+
+            <span style='padding: 15px;'>Choose Area : </span>
+            <input name="area-name" class='area-name-autofill' list="area-name" >
+            <datalist id="area-name" >
+            </datalist>
+
+            <span id='loading-img'><img id='location-loading' src='/location-loading.gif'></span>
+
+        </div>
+
+    </div>
+    <p id="cats">scroll for categories</p>
+    <img src="chevron-down.png" id="scroll">
+    <div class="categories">
+        
+        <label for=""><img src="electrician.png"><br><a id='<%= user.username %>|electrician'  onClick='reply_click(this.id)'>Electrician</a></label>
+        <label for=""><img src="heater.png"><br><a id='<%= user.username %>|ac-technician' onClick='reply_click(this.id)'>AC Technician</a></label>
+        <label for=""><img src="washing-machine.png"><br><a id='<%= user.username %>|electronics' onClick='reply_click(this.id)'>Electronics</a></label>
+        <label for=""><img src="plumber.png"><br><a id='<%= user.username %>|plumber' onClick='reply_click(this.id)'>Plumber</a></label>
+        <label for=""><img src="delivery-truck.png"><br><a id='<%= user.username %>|house-shifting' onClick='reply_click(this.id)'>House Shifting</a></label>
+        <label for=""><img src="paint-roller.png"><br><a id='<%= user.username %>|home-decor' onClick='reply_click(this.id)'>Home Decor</a></label>
+        <label for=""><img src="restaurant.png"><br><a id='<%= user.username %>|interior-painting' onClick='reply_click(this.id)'>Interior Painting</a></label>
+        <label for=""><img src="settings.png"><br><a id='<%= user.username %>|tv-pc-repair' onClick='reply_click(this.id)'>TV/PC repair</a></label>
+        <label for=""><img src="hair-washing.png"><br><a id='<%= user.username %>|home-salon' onClick='reply_click(this.id)'>Home Salon</a></label>
+    </div>
+    <!-- <div class="footer" style="padding: 20px; background-color: rgb(51, 51, 51);margin-top: 50px;">
+        <a href="mailto:abc@gmail.com" style="text-decoration: none;">abc@gmail.com</a>
+        <button>Email us</button>
+        
+    </div> -->
+
+    <script>
+        
+        const user = '<%= user.username %>'
+
+    </script>
+
+
+</body>
+
+</html>

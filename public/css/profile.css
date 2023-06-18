@@ -1,0 +1,148 @@
+body {
+    margin: 0;
+    font-family: "Lato", sans-serif;
+}
+
+.user {
+    margin-top: 0.3%;
+    padding-left: 16px;
+    width: 185px;
+    background-color: #f1f1f1;
+    position: fixed;
+    height: 15%;
+    overflow: auto;
+    display: block;
+}
+
+.sidebar {
+    margin-top: 7.5%;
+    padding: 0;
+    width: 200px;
+    background-color: #f1f1f1;
+    position: fixed;
+    height: 83.5%;
+    overflow: auto;
+}
+
+.sidebar a {
+    display: block;
+    color: black;
+    padding: 16px;
+    text-decoration: none;
+}
+
+.sidebar a.active {
+    background-color: #04AA6D;
+    color: white;
+}
+
+.sidebar a:hover:not(.active) {
+    background-color: #555;
+    color: white;
+}
+
+#profile, #address{
+    margin-left: 200px;
+    padding: 16px;
+    height: auto;
+    display: block;
+}
+    
+input {
+    padding: 7px;
+}
+    
+input[type=text], input[type=email], input[type=tel] {
+    border: 2px solid red;
+    border-radius: 4px;
+    width: 25%;
+}
+
+input[type=button]{
+    padding: 9px 15px;
+    text-align: center;
+    display: block;
+    float: right;
+    margin-right: 800px;
+    font-size: 15px;
+    display: block;
+}
+
+
+input[type=button]#edit{
+    padding: 9px 15px;
+    text-align: center;
+    display: block;
+    border: none;
+    float: right;
+    margin-right: 440px;
+    font-size: 15px;
+}
+
+select{
+    border: 2px solid red;
+    border-radius: 4px;
+    width: 27%;
+    height: 33px;
+}
+
+option{
+    text-align: center;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+#submit-button{
+    display: none;
+}
+
+#verify-button{
+    display: none;
+}
+
+#verify-email-button{
+    display: none;
+}
+
+#otp-form {
+    display: none;
+}
+
+#verify-number-icon {
+    display: none;
+}
+
+#countdown, #resend-otp{
+    display: none;
+}
+
+#address {
+    display: none;
+}
+
+/* @media screen and (max-width: 700px) {
+.sidebar {
+width: 100%;
+height: auto;
+position: relative;
+}
+.sidebar a {float: left;}
+div.content {margin-left: 0;}
+}
+
+@media screen and (max-width: 400px) {
+.sidebar a {
+text-align: center;
+float: none;
+}
+} */

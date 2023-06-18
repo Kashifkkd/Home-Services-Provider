@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Seller Dashboard</title>
+
+    <style>
+.container{
+    margin: -7px;
+}
+.dashboard {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+}
+
+.header {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    /* flex: 1; */
+}
+
+.sidebar {
+            flex: 0 0 200px;
+            margin-top: 10px;
+            padding: 0;
+            width: 195px;
+            background-color: #f1f1f1;
+            /* position: fixed; */
+            /* height: 83.5%; */
+            overflow: auto;
+        }
+
+        .sidebar a {
+            display: block;
+            color: black;
+            padding: 16px;
+            text-decoration: none;
+        }
+
+        .sidebar a.active {
+            background-color: #04AA6D;
+            color: white;
+        }
+
+        .sidebar a:hover:not(.active) {
+            background-color: #555;
+            color: white;
+        }
+
+.content {
+    flex: 1;
+    padding: 20px;
+}
+.navbar.active {
+    width: 0px;
+    padding: 0;
+}
+
+.main-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    margin: 10px 0;
+    
+}
+.bars {
+    cursor: pointer;
+}
+.bar {
+    margin: 3px 0;
+    width: 20px;
+    height: 4px;
+    border-radius: 4px;
+    background-color: #000;
+}
+.user {
+    width: 40px;
+    position: relative;
+    transform: scaleX(-1);
+}
+.user img {
+    width: 100%;
+}
+.bottom-nav {
+    position: absolute;
+    bottom: 2px;
+}
+
+h1{
+    font-size: 22px;
+}
+hr {
+    margin-left: 20px;
+    height: 1.5px;
+    display: block;
+    margin-bottom: 5px;
+    width: 150px;
+    background-color: #2f2c2c1d;
+    outline: none;
+    border: none;
+}
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    margin: 10px 0;
+}
+
+a {
+    text-decoration: none;
+    color: #333;
+}
+
+a:hover {
+    color: #fff;
+    background-color: #333;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+table{
+    border:1px solid gray;
+}
+tr {
+    row-gap: 0px;
+}
+
+th {
+    line-height: 40px;
+    text-align: left;
+    background-color: lightblue;
+}
+
+td {
+    line-height: 28px;
+}
+
+td,
+th {
+    margin: 0;
+}
+
+
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        <div class="header">
+            <h1>Seller Dashboard</h1>  
+            <br>          
+        </div>
+
+        <div class="dashboard">
+            <div class="content">
+            </div>
+            <div class="sidebar">
+                <div class="navbar" id="navigation">
+                    <ul class="center-nav">
+                        <li><a href="#" id="profile" class='active'>Profile</a></li>
+                        <li><a href="#" id="orders">Orders</a></li>
+                        <li><a href="#" id="services">Services</a></li>
+                        <li><a href="#" id="customers">Customers</a></li>
+                    </ul>
+                    <ul class="bottom-nav">
+                        <hr>
+                        <li><a href="#"> Settings </a></li>
+                        <li><a href="#"> Logout </a></li>
+                    </ul>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</body>
+<script>
+
+    const form = document.querySelector('form');
+
+    document.querySelector('#orders').onclick = function(){
+    document.querySelector('.content').innerHTML = `
+            <div class='orders'>
+                <h2>Orders</h2>
+                <table>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Service Type</th>
+                        <th>Customer Name</th>
+                        <th>Order Date</th>
+                        <th>Order Status</th>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>Electrical</td>
+                        <td>John Doe</td>
+                        <td>2022-01-01</td>
+                        <td>Delivered</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Plumbing</td>
+                        <td>Jane Smith</td>
+                        <td>2022-02-01</td>
+                        <td>Processing</td>
+                    </tr>
+                </table>
+            </div>
+        `;
+    }
+    // profile
+    document.querySelector('#profile').onclick = function(){
+    document.querySelector('.content').innerHTML = `
+        <div class='profile'>
+            <h2>Welcome <%= username %></h2>
+            <img src='http://localhost:3000/use.jpeg' alt='profile image'>
+            <div class='contact'>
+        </div>
+
+        <div class="content" id="profile">
+        <form>
+            <h3>Personal information</h3> 
+            <input type='button' id='edit-button' value='Edit'><br><br>
+
+            <label for='sname'>Shop Name :</label>
+            <input type="text" id="sname" value="<%= shopName %>"> <br>
+            <div class='sname-error'></div><br>
+
+            <label for='fname'>First Name :</label>
+            <input type="text" id="fname" value="<%= fName %>"> <br><br>
+            <div class='fname-error'></div>
+
+            <label for='lname'>Last Name :</label>
+            <input type="text" id="lname" value="<%= lName %>"> <br>
+            <div class='lname-error'></div><br>
+        
+            <label for='email'>Email Address :</label>
+            <input type="text" id="email" value="<%= email %>">
+            <div class='email-error'></div> <br>
+
+            <label for='mobileNo'>Mobile Number :</label>
+            <input type='tel' name='mobileNo' id='mobNumber' value='<%= mNumber %>'/>
+            
+            <div class='mobileNo-error'></div>
+            <br>
+            <button id='submit-button'>Save</button>
+        </form>
+    `;
+    }
+
+    form.addEventListener('submit', async(e) => {
+        e.preventDefault();
+
+        console.log('clicked..')
+
+        let firstName = form.fname.value;
+        let shopName = form.sname.value;
+        let lastName = form.lname.value;
+        let email = form.email.value;
+        let mobileNumber = form.mobileNo.value;
+        
+        firstNameError.textContent = '';
+        lastNameError.textContent = '';
+        sname.textContent = '';
+        emailError.textContent = '';
+        mobileNumberError.textContent = '';
+
+        try{
+            if(firstName && shopName && lastName && email && mobileNumber){
+                // const res = await fetch('/business/dashboard',{
+                //     method: 'POST',
+                //     body: JSON.stringify({ username, firstName, lastName, shopName, mobileNumber}),
+                //     headers: { 'Content-Type' : 'application/json' },
+                // })
+                
+                console.log(res);
+            }
+
+        } catch(err) {
+
+        }
+    })
+
+
+</script>
+</html>

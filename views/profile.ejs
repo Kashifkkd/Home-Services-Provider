@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src='/javascript/profile.js' defer> </script>
+    <link rel="stylesheet" href="/css/profile.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+
+    <style>
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+            
+
+        .address-list ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .address-list li {
+            border: 1px solid #00a6ff;
+            border-radius: 4px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .address-list li:hover{
+            box-shadow: 3px 7px 10px rgba(0,0,0,0.2);
+            scale: (1,1);
+        }
+
+        .address-list h3 {
+            margin-top: 0;
+        }
+
+        .address-list p {
+            margin-bottom: 5px;
+        }
+
+        .address-list button {
+            margin-right: 10px;
+            padding: 4px 10px;
+        }
+
+        #edit{
+            border: 1px solid green;
+            background-color: rgb(69, 249, 69);
+        }
+
+        #del{
+            border: 1px solid red;
+            background-color: rgb(245, 70, 70);
+        }
+
+        #submit-address-button {
+            border: 1px solid green;
+            background-color: rgb(69, 249, 69);
+        }
+
+        
+
+        #cancel-button{
+            border: 1px solid red;
+            background-color: rgb(245, 70, 70);
+        }
+
+        #addAddress {
+            display: None;
+            margin-left: 250px;
+        }
+    </style>
+
+</head>
+
+
+<body>
+    <div class="user">
+        <h3>Welcome <%= username %> !!</h3>
+    </div>
+
+    <div class="sidebar">
+        <a class="active" id='myProfile'>My Profile</a>
+        <a id='addressInfomation'>Manage Address</a>
+    </div>
+
+    <div class="content" id="profile">
+        <form>
+            <input type='button' id='edit-button' value='Edit'>
+            <h3>Personal information</h3> <br><br>
+                <label for='fname'>First Name :</label>
+                <input type="text" id="fname" value="<%= fName %>"> <br><br>
+                <div class='fname-error'></div>
+
+                <label for='lname'>Last Name :</label>
+                <input type="text" id="lname" value="<%= lName %>"> <br>
+                <div class='lname-error'></div><br>
+            
+            <p>Your gender:</p>
+
+            <input type="radio" id="male" name="contact" value="male">
+            <label for="male">Male</label>
+     
+            <input type="radio" id="female" name="contact" value="female">
+            <label for="female">Female</label>
+     
+            <input type="radio" id="other" name="contact" value="other">
+            <label for="other">Other</label>
+
+            <div class='gender-error'></div>
+
+            <br><br>
+            
+            <label for='email'>Email Address :</label>
+            <input type="text" id="email" value="<%= emailAddress %>">
+            <div class='email-error'></div>
+            <input type='button' id='verify-email-button' value='Verify Email'>
+            <span><i class="bi bi-patch-check-fill" id='verify-email-icon'>verified</i></span>
+            <div class='msg-sended'></div>
+            <br><br>
+
+            <label for='mobileNo'>Mobile Number :</label>
+            <input type='tel' name='mobileNo' id='mobNumber' value='<%= mNumber %>'/>
+            
+            <span><i class="bi bi-patch-check-fill" id='verify-number-icon'>verified</i></span>
+            <div class='mobileNo-error'></div>
+            <br>
+            <input type='button' id='verify-button' value='Verify Number'>
+
+            <div id='otp-form'>
+                <label for='otp'>Enter OTP :</label>
+                <input type="text" id="otp" maxlength="4" pattern="^[0-9]{4}$">
+                <input type='button' id='otp-verification-button' value='Verify'>
+            </div>
+
+            <p id='countdown'>Resend OTP in <span id='otp-timer'>2:00</span></p>
+            <input type='button' id='resend-otp' value='Resend'>
+            
+            <br><br>
+            <button id='submit-button'>Save</button>
+        </form>
+
+        <script>
+            console.log('<%= mNumberVerified %>');
+            let username = '<%= username %>';
+            let gender = '<%= gender %>'; 
+            let verifiedNumberFlag = ('<%= mNumberVerified %>' === 'true');
+            let verifiedEmailFlag = ('<%= emailVerified %>' === 'true');
+        </script>
+
+    </div>
+
+
+    <div class="content" id="address">
+
+        <h2>You can add upto 2 addresses only.</h1>
+
+            <% if(totalAddresses < 2){%>
+                <button id='add-address-form'>Add</button>
+            <%}else{%>
+                <h5>Football</h5>
+            <%}%>
+
+        
+                         
+
+        <!-- <div>
+            <h3>Address 1</h1>
+            <h3><%= roomNum %>, <%= buildingName %>, <%= streetName %>, <%= cityName %>, <%= stateName %></h1>
+        </div> -->
+
+
+
+        <div class="address-list">
+            <h2>Address book</h2>
+            <ul>
+              <li>
+                <!-- <input type="checkbox" id=""> -->
+                <h3><%= fName %> <%= lName %></h3>
+                <p><%= roomNum %>, <%= buildingName %>, <%= streetName %>,</p>
+                <p><%= cityName %>, <%= stateName %>.</p><br>
+                <button id="edit">Edit</button>
+                <button id="del">Delete</button>
+              </li>
+              <!-- <li>
+                <h3>Jane Smith</h3>
+                <p>456 Oak Ave</p>
+                <p></p>
+                <p>San Francisco, CA 94102</p>
+                <button id="edit">Edit</button>
+                <button id="del">Delete</button>
+              </li> -->
+            </ul>
+          </div>
+        </div>
+
+        <form id="addAddress">
+            <h3>Manage addresses</h3>
+            <input type="text" id="add1" placeholder="Room number" required>
+            <input type="text" id="add2" placeholder="House Name" required>
+            <br><br>
+            <input type="text" id="add3" placeholder="Area/ Locality" required>
+            <input type="text" id="add4" placeholder="City/Town/District" required>
+            <br><br>
+            <select name="state" id="add5" required>
+                <option value="Mh">Maharashtra</option>
+                <option value="Del">Delhi</option>
+                <option value="Goa">Goa</option>
+            </select>
+            <br><br><br>
+            <button id='submit-address-button'>Save</button>
+            <button id='cancel-button'>Cancel</button>
+        </form>
+    </div>
+
+</body>
+</html>
